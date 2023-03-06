@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfbvicjvk1udx"]
+[gd_scene load_steps=3 format=3 uid="uid://cfbvicjvk1udx"]
 
 [ext_resource type="PackedScene" uid="uid://pt88wd8otne3" path="res://scenes/Player.tscn" id="1_8tutg"]
+[ext_resource type="PackedScene" uid="uid://8csfmlixawco" path="res://scenes/world.tscn" id="1_r3qnb"]
 
 [node name="MainTest" type="Node2D"]
 
+[node name="World" parent="." instance=ExtResource("1_r3qnb")]
+
 [node name="Player" parent="." instance=ExtResource("1_8tutg")]
-position = Vector2(378, 222)
-scale = Vector2(1.5, 1.5)
+position = Vector2(269, -117)
+scale = Vector2(2, 2)
