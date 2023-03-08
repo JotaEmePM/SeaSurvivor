@@ -8,12 +8,22 @@ var DIRECTION = "DOWN"
 
 var skin_number = 1
 
+## ---New movement system ---
+@export var speed := 100.0
+@export var acceleration := 1000.0
+@export var decceleration := 1000.0
+@export var aim_deadzone := .2
+
+var _direction := Vector2.DOWN
+var _input_direction := Vector2.ZERO
+
+
 func _ready():
 	$AnimationPlayer.play()
 	$AnimationPlayer.current_animation = "idle_down"
 
 func _physics_process(delta):
-	input_movement(delta)
+	input_movement2(delta)
 	sprite_animation_selector()
 	change_skin()
 
@@ -56,6 +66,25 @@ func sprite_animation_selector():
 			$AnimationPlayer.current_animation =  "idle_right"
 		"IDLE_LEFT":
 			$AnimationPlayer.current_animation =  "idle_left"
+
+func input_movement2(delta):
+	
+	_input_direction= Vector2(
+		Input.get_axis("move_left", "move_right"),
+		Input.get_axis("move_up", "move_down")
+	).limit_length(1.0)
+	
+	if _input_direction:
+		velocity += _input_direction * 1000.0 * delta
+		velocity = velocity.limit_length(100.0 * _input_direction.length())
+		if _input_direction.length() > aim_deadzone:
+			_direction = _input_direction.normalized()
+		else:
+			velocity = velocity.move_toward(Vector2.ZERO, decceleration * delta)
+		
+		move_and_slide()
+		
+	
 
 func input_movement(delta):
 	var input_dir = Vector2()
